@@ -29,6 +29,7 @@ int main(int argc, char *argv[]) {
 
     printArray(numbers, numberOfElements);
     heapsort(numbers, numberOfElements);
+    cout<<endl;
     printArray(numbers, numberOfElements);
     assert(validate(numbers, numberOfElements) && "The sort is not ordering all the elements");
 
@@ -46,10 +47,49 @@ void printArray(int *array, size_t size) {
         cout << array[i] << " ";
     }
     cout << endl;
+
 }
 
+void  swap( int* array, int root, int left){
+    int temp;
+    temp=array[root];
+    array[root]=array[left];
+    array[left]=temp;
+}
+
+void subheap(int* array, int size, int i){
+
+    int root, right, left;
+    root = i;
+    left = (2*i)+1;
+    right = (2*i)+2;
+
+    if (left < size && array[left]>array[root])
+    {
+        root=left;
+    }
+    if (right<size &&  array[right]>array[root] )
+    {
+        root=right;   
+    }
+    if (root != i)
+    {
+        swap(array,root,i);
+        subheap(array,size,root);
+    }
+};
+
 void heapsort(int* array, size_t size) {
-    // TODO
+    for (int i =size/2; i >= 0; i--)
+    {
+        subheap( array, size ,i);
+    }
+    for (int i=size-1; i >= 0; i--)
+    {
+        swap(array,0,i);
+
+        subheap(array,i,0);
+    }
 }
 
 bool validate(int* array, size_t size) {
